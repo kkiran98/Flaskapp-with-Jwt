@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Task Manager</title>
+</head>
+<body>
+    <h1>Task Manager</h1>
+
+    {% if tasks %}
+        <h2>Task List</h2>
+        <ul>
+            {% for task in tasks %}
+                <li>
+                    {{ task[1] }} <!-- Assuming the task content is in the second column of the database -->
+                    <form action="/delete/{{ task[0] }}?token={{ token }}" method="post" style="display: inline;">
+                        <button type="submit">Delete</button>
+                    </form>
+                    <form action="/update/{{ task[0] }}?token={{ token }}" method="post" style="display: inline;">
+                        <input type="text" name="updated_task" placeholder="Update task">
+                        <button type="submit">Update</button>
+                    </form>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No tasks available.</p>
+    {% endif %}
+
+    <h2>Add New Task</h2>
+    <form action="/add?token={{ token }}" method="post">
+        <label for="task">Task:</label>
+        <input type="text" id="task" name="task" required>
+        <button type="submit">Add Task</button>
+    </form>
+</body>
+</html>
+
